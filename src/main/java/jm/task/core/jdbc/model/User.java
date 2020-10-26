@@ -3,6 +3,8 @@ package jm.task.core.jdbc.model;
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.sql.Connection;
+import java.sql.DriverManager;
 
 @Table
 public class User {
@@ -14,6 +16,14 @@ public class User {
 
     @Column
     private String lastName;
+
+    @Override
+    public String toString() {
+        return "Employee [UserId=" + getId()
+                + ", UserName=" + getName()
+                + ", UserLastName=" + getLastName()
+                + ", UserAge" + getAge() + "]";
+    }
 
     @Column
     private Byte age;
