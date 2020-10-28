@@ -6,7 +6,7 @@ import java.sql.DriverManager;
 public class Util {
     // реализуйте настройку соеденения с БД
     private final static String url = "jdbc:mysql://localhost:3306" +
-            "/users757?serverTimezone=Europe/Moscow&useSSL=false";
+            "/store?serverTimezone=Europe/Moscow&useSSL=false";
     private final static String username = "root";
     private final static String password = "Loskov10";
 
@@ -15,7 +15,7 @@ public class Util {
         try {
             conn = DriverManager.getConnection(url, username, password);
         } catch (Exception e) {
-            //Ignore
+            e.printStackTrace();
         }
         return conn;
     }
