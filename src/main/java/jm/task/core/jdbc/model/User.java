@@ -1,14 +1,14 @@
 package jm.task.core.jdbc.model;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
-@Table
+@Entity
+@Table(name = "users")
 public class User {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column
@@ -17,19 +17,18 @@ public class User {
     @Column
     private String lastName;
 
+    @Column
+    private Byte age;
+
+    public User() {
+
+    }
     @Override
     public String toString() {
         return "Employee [UserId=" + getId()
                 + ", UserName=" + getName()
                 + ", UserLastName=" + getLastName()
                 + ", UserAge" + getAge() + "]";
-    }
-
-    @Column
-    private Byte age;
-
-    public User() {
-
     }
 
     public User(String name, String lastName, Byte age) {
