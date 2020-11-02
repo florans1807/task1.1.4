@@ -7,14 +7,16 @@
     <groupId>com.test_hibernate</groupId>
     <artifactId>Test_hibernate</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <packaging>cst</packaging>
+
     <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>7</source>
-                    <target>7</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
         </plugins>
@@ -31,16 +33,8 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
-            <version>5.3.7.Final</version>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.13.1</version>
-            <scope>test</scope>
+            <version>5.4.14.Final</version>
         </dependency>
 
     </dependencies>
-
 </project>
-

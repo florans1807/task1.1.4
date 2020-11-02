@@ -11,6 +11,7 @@ import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.cfg.Environment;
+import org.hibernate.service.ServiceRegistry;
 
 public class Util {
     // реализуйте настройку соеденения с БД
@@ -22,25 +23,15 @@ public class Util {
             try {
                 StandardServiceRegistryBuilder registryBuilder = new StandardServiceRegistryBuilder();
 
-               /* Map<String, String> settings = new HashMap<>();
-                settings.put(Environment.DRIVER, "com.mysql.cj.jdbc.Driver");
-                //settings.put(Environment.DRIVER, "com.mysql.jdbc.Driver");
-                settings.put(Environment.URL, "jdbc:mysql://localhost:3306 " +
-                        "+ /users757?serverTimezone=Europe/Moscow&useSSL=false");
-                settings.put(Environment.USER, "root");
-                settings.put(Environment.PASS, "Loskov10");
-                settings.put(Environment.DIALECT, "org.hibernate.dialect.MySQLDialect");*/
-
-                //Configuration configuration = new Configuration();
-                //configuration.addAnnotatedClass(User.class);
                 Map<String, String> settings = new HashMap<>();
                 settings.put("hibernate.connection.driver_class", "com.mysql.cj.jdbc.Driver");
-                settings.put("hibernate.connection.url", "jdbc:mysql://localhost:3306/users757?serverTimezone=Europe/Moscow&useSSL=false");
+                settings.put("hibernate.connection.url", "jdbc:mysql://localhost:3306/products757?serverTimezone=Europe/Moscow&useSSL=false");
                 settings.put("hibernate.connection.username", "root");
                 settings.put("hibernate.connection.password", "Loskov10");
                 settings.put("hibernate.connection.dialect", "org.hibernate.dialect.MySQLDialect");
                 settings.put("hibernate.show_sql", "true");
                 settings.put("hibernate.hbm2ddl.auto", "update");
+
                 registryBuilder.applySettings(settings);
 
                 registry = registryBuilder.build();
@@ -48,6 +39,9 @@ public class Util {
                 MetadataSources sources = new MetadataSources(registry);
                 sources.addAnnotatedClass(User.class);
                 Metadata metadata = sources.getMetadataBuilder().build();
+                //Metadata metadata = sources.buildMetadata();
+
+                //sessionFactory = metadata.buildSessionFactory();
 
                 sessionFactory = metadata.getSessionFactoryBuilder().build();
 
@@ -68,78 +62,30 @@ public class Util {
         }
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    /*private static StandardServiceRegistry registry;
-    private static SessionFactory sessionFactory;
+   /* private static SessionFactory sessionFactory;
 
     public static SessionFactory getSessionFactory() {
-        //реализация синглтона. Если объекта нет - создаем, если есть просто возвращаем
         if (sessionFactory == null) {
             try {
-                StandardServiceRegistryBuilder registryBuilder = new StandardServiceRegistryBuilder();
+                Configuration configuration = new Configuration();
+                configuration.addAnnotatedClass(User.class);
+                configuration.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
+                configuration.setProperty("hibernate.connection.driver_class", "com.mysql.cj.jdbc.Driver");
+                configuration.setProperty("hibernate.connection.url", "jdbc:mysql://localhost:3306/products757?serverTimezone=Europe/Moscow&useSSL=false");
+                configuration.setProperty("hibernate.connection.username", "root");
+                configuration.setProperty("hibernate.connection.password", "Loskov10");
+                configuration.setProperty("hibernate.show_sql", "true");
+                configuration.setProperty("hibernate.hbm2ddl.auto", "update");
 
-                //стандартные настройки для хибернат
-                //для тех, кто использует другую базу данных нужно заметить поле DRIVER, DIALECT и кусок URL легко гуглятся под любую базу
-                Map<String, String> settings = new HashMap<>();
-                settings.put(Environment.DRIVER, "org.postgresql.Driver");
-                settings.put(Environment.URL, "jdbc:postgresql://localhost:5432/hibernate_tutorial");
-                settings.put(Environment.USER, "postgres");
-                settings.put(Environment.PASS, "postgres");
-                settings.put(Environment.DIALECT, "org.hibernate.dialect.PostgreSQL9Dialect");
+                ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
+                        .applySettings(configuration.getProperties()).build();
 
-                registryBuilder.applySettings(settings);
-
-                registry = registryBuilder.build();
-
-                MetadataSources sources = new MetadataSources(registry);
-                Metadata metadata = sources.getMetadataBuilder().build();
-
-                sessionFactory = metadata.getSessionFactoryBuilder().build();
+                sessionFactory = configuration.buildSessionFactory(serviceRegistry);
 
             } catch (Exception e) {
-                e.printStackTrace();
-                if (registry != null) {
-                    StandardServiceRegistryBuilder.destroy(registry);
-                }
+                System.err.println("Initial SessionFactory creation failed." + e);
             }
         }
         return sessionFactory;
-    }
-
-    public static void close() {
-        if (registry != null) {
-            StandardServiceRegistryBuilder.destroy(registry);
-        }
     }*/
-
-
-
 }
