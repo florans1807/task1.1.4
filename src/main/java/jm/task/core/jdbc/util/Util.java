@@ -56,12 +56,6 @@ public class Util {
     }
 
 
-    public static void close() {
-        if (registry != null) {
-            StandardServiceRegistryBuilder.destroy(registry);
-        }
-    }
-
    /* private static SessionFactory sessionFactory;
 
     public static SessionFactory getSessionFactory() {
