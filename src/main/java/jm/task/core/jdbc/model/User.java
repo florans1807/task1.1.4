@@ -9,7 +9,7 @@ import java.sql.DriverManager;
 public class User {
 
     @Id
-    @Column(name = "id")
+    @Column(name = "Id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

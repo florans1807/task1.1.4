@@ -5,11 +5,8 @@ import jm.task.core.jdbc.util.Util;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import java.util.List;
 
 public class UserDaoHibernateImpl implements UserDao {
@@ -35,9 +32,9 @@ public class UserDaoHibernateImpl implements UserDao {
 
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
-            session.createSQLQuery("CREATE TABLE IF NOT EXISTS users (id MEDIUMINT NOT NULL AUTO_INCREMENT" +
+            session.createSQLQuery("CREATE TABLE IF NOT EXISTS users (Id MEDIUMINT NOT NULL AUTO_INCREMENT" +
                     ", firstname VARCHAR(30) NOT NULL, " +
-                    "lastname VARCHAR(30) NOT NULL, Age TINYINT NOT NULL, PRIMARY KEY (id));").executeUpdate();
+                    "lastname VARCHAR(30) NOT NULL, Age MEDIUMINT NOT NULL, PRIMARY KEY (id));").executeUpdate();
             session.getTransaction().commit();
         } catch (HibernateException e) {
             e.printStackTrace();
@@ -66,12 +63,6 @@ public class UserDaoHibernateImpl implements UserDao {
     @Override
     public void saveUser(String name, String lastName, byte age) {
         User user = new User(name, lastName, age);
-        /*Session session = sessionFactory.openSession();
-        session.beginTransaction();
-        session.save(user);
-        session.getTransaction().commit();
-        //session.flush();
-        session.close();*/
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             session.save(user);
@@ -104,24 +95,33 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public List<User> getAllUsers() {
-        /*Session session = sessionFactory.openSession();
-        session.beginTransaction();
-        String hql = "SELECT * FROM users";
-        //String hql = "FROM User";
-        Query query = session.createSQLQuery(hql);
-        List<User> users = query.list();
-        session.close();
-        return users;*/
-
         List<User> users = null;
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
-            users = session.createSQLQuery("SELECT * FROM users").list();
+            users = session.createQuery("FROM User", User.class).list();
             session.getTransaction().commit();
         } catch (HibernateException e) {
             e.printStackTrace();
         }
         return users;
+
+        /*List<User> users;
+        try (Session session = sessionFactory.openSession()) {
+            users = session.createQuery("FROM User", User.class).list();
+        } catch (HibernateException e) {
+            throw e;
+        }
+        return users;*/
+
+        /*List<User> users = null;
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            users = session.createCriteria(User.class).list();
+            session.getTransaction().commit();
+        } catch (HibernateException e) {
+            e.printStackTrace();
+        }
+        return users;*/
     }
 
     @Override
