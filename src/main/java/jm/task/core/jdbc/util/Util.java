@@ -36,9 +36,6 @@ public class Util {
                 MetadataSources sources = new MetadataSources(registry);
                 sources.addAnnotatedClass(User.class);
                 Metadata metadata = sources.getMetadataBuilder().build();
-                //Metadata metadata = sources.buildMetadata();
-
-                //sessionFactory = metadata.buildSessionFactory();
 
                 sessionFactory = metadata.getSessionFactoryBuilder().build();
 
